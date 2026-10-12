@@ -1,0 +1,208 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+/* Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+/* Body */
+body {
+    background: linear-gradient(to right, #3498db, #2c3e50);
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Navbar */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #2c3e50;
+    padding: 15px 50px;
+    color: white;
+}
+
+.logo {
+    font-size: 24px;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.nav-links li {
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.nav-links li:hover {
+    color: #3498db;   /* 🔥 hover effect */
+}
+
+/* Button */
+.nav-links button {
+    padding: 8px 15px;
+    background: #3498db;
+    border: none;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.nav-links button:hover {
+    background: #2980b9;  /* 🔥 hover */
+    transform: scale(1.05);
+}
+
+/* Hero Section */
+.hero {
+    text-align: center;
+    padding: 80px 20px;
+    background: linear-gradient(to right, #3498db, #2c3e50);
+    color: white;
+}
+
+.hero h1 {
+    font-size: 40px;
+    margin-bottom: 15px;
+}
+
+.hero p {
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+.hero button {
+    padding: 12px 25px;
+    background: white;
+    color: #2c3e50;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.hero button:hover {
+    background: #ecf0f1;
+    transform: scale(1.1);   /* 🔥 hover zoom */
+}
+
+/* Features */
+.features {
+    display: flex;
+    justify-content: space-around;
+    padding: 50px;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.feature-card {
+    background: white;
+    width: 220px;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    transition: 0.3s;
+    box-shadow: 0px 2px 8px rgba(0,0,0,0.1);
+}
+
+.feature-card .icon {
+    font-size: 30px;
+    margin-bottom: 10px;
+}
+
+.feature-card:hover {
+    transform: translateY(-10px);   /* 🔥 lift effect */
+    box-shadow: 0px 8px 20px rgba(0,0,0,0.2);
+}
+
+/* Footer */
+.footer {
+    text-align: center;
+    padding: 20px;
+    background: #2c3e50;
+    color: white;
+    margin-top: 30px;
+}
+
+
+.container {
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    width: 320px;
+    text-align: center;
+    box-shadow: 0px 5px 15px rgba(0,0,0,0.2);
+}
+
+/* Hover effect */
+.container:hover {
+    transform: scale(1.03);
+}
+
+/* Heading */
+.container h2 {
+    margin-bottom: 20px;
+    color: #2c3e50;
+}
+
+/* Inputs */
+.container input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    transition: 0.3s;
+}
+
+/* Input focus */
+.container input:focus {
+    border-color: #3498db;
+    outline: none;
+    box-shadow: 0px 0px 5px #3498db;
+}
+
+/* Button */
+.container button {
+    width: 100%;
+    padding: 10px;
+    background: #3498db;
+    border: none;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+/* Button hover */
+.container button:hover {
+    background: #2980b9;
+    transform: scale(1.05);
+}
+
+/* Links */
+.container a {
+    display: block;
+    margin-top: 15px;
+    color: #3498db;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.container a:hover {
+    color: #2c3e50;
+}

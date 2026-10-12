@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% block title %}Report{% endblock %}
+{% block content %}
+
+<div class="page-header">
+  <h1>Analytics Report</h1>
+  <p>Aggregated insights across all your uploads</p>
+</div>
+
+<div class="kpi-grid" style="margin-bottom:28px;">
+  <div class="kpi-card" style="--accent-color:var(--accent)">
+    <div class="kpi-label">Total Uploads</div>
+    <div class="kpi-value">{{ total_uploads }}</div>
+  </div>
+  <div class="kpi-card" style="--accent-color:var(--accent2)">
+    <div class="kpi-label">Total Customers</div>
+    <div class="kpi-value">{{ total_customers }}</div>
+  </div>
+  <div class="kpi-card" style="--accent-color:var(--red)">
+    <div class="kpi-label">Total Churn</div>
+    <div class="kpi-value" style="color:var(--red)">{{ total_churn }}</div>
+    {% if total_customers %}
+    <div class="kpi-sub">{{ ((total_churn / total_customers) * 100)|round(1) }}% rate</div>
+    {% endif %}
+  </div>
+  <div class="kpi-card" style="--accent-color:var(--green)">
+    <div class="kpi-label">Retained</div>
+    <div class="kpi-value" style="color:var(--green)">{{ total_non_churn }}</div>
+  </div>
+</div>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:24px;">
+  <div class="card">
+    <div style="font-size:13px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:16px;">Customer Distribution</div>
+    <canvas id="doughnutChart" height="220"></canvas>
+  </div>
+  <div class="card">
+    <div style="font-size:13px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:16px;">Churn Trend</div>
+    <canvas id="lineChart" height="220"></canvas>
+  </div>
+</div>
+
+<div class="card">
+  <div style="font-size:13px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:16px;">Analysis Insight</div>
+  {% if total_customers %}
+  <div style="background:rgba(59,130,246,.08);border:1px solid rgba(59,130,246,.2);border-radius:12px;padding:18px;">
+    {% set rate = ((total_churn / total_customers) * 100)|round(1) %}
+    {% if rate > 30 %}
+      ⚠️ <strong>High churn alert</strong> — {{ rate }}% of customers are at risk. Immediate retention campaigns recommended.
+    {% elif rate > 15 %}
+      📊 <strong>Moderate churn</strong> — {{ rate }}% rate. Consider targeted outreach for high-risk segments.
+    {% else %}
+      ✅ <strong>Healthy retention</strong> — Only {{ rate }}% churn rate. Continue current engagement strategies.
+    {% endif %}
+  </div>
+  {% else %}
+  <p style="color:var(--muted);">No data yet. Upload a dataset to see insights.</p>
+  {% endif %}
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+Chart.defaults.color = '#64748b';
+Chart.defaults.borderColor = '#1e293b';
+
+new Chart(document.getElementById('doughnutChart'), {
+  type: 'doughnut',
+  data: {
+    labels: ['Churn', 'Retained'],
+    datasets: [{ data: [{{ total_churn }}, {{ total_non_churn }}],
+      backgroundColor: ['rgba(239,68,68,.8)', 'rgba(16,185,129,.8)'],
+      borderColor: ['#ef4444','#10b981'], borderWidth: 2 }]
+  },
+  options: { cutout: '68%', plugins: { legend: { position:'bottom', labels:{ color:'#94a3b8', padding:16 } } } }
+});
+
+new Chart(document.getElementById('lineChart'), {
+  type: 'line',
+  data: {
+    labels: {{ dates|tojson }},
+    datasets: [
+      { label:'Churn', data: {{ churn_values|tojson }}, borderColor:'#ef4444', backgroundColor:'rgba(239,68,68,.1)', fill:true, tension:0.4, pointBackgroundColor:'#ef4444' },
+      { label:'Retained', data: {{ non_churn_values|tojson }}, borderColor:'#10b981', backgroundColor:'rgba(16,185,129,.1)', fill:true, tension:0.4, pointBackgroundColor:'#10b981' }
+    ]
+  },
+  options: { plugins:{ legend:{ labels:{ color:'#94a3b8' } } }, scales:{ x:{ grid:{ color:'#1e293b' } }, y:{ grid:{ color:'#1e293b' } } } }
+});
+</script>
+{% endblock %}

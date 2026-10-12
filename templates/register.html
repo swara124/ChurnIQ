@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Register – ChurnIQ</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root { --bg:#080c14; --surface:#0f172a; --border:#1e293b; --accent:#3b82f6; --text:#f1f5f9; --muted:#64748b; }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { background:var(--bg); color:var(--text); font-family:'Space Grotesk',sans-serif; min-height:100vh; display:flex; align-items:center; justify-content:center; }
+    .container { width:100%; max-width:400px; padding:20px; }
+    .brand { text-align:center; margin-bottom:40px; }
+    .brand-icon { width:52px;height:52px;border-radius:14px;background:linear-gradient(135deg,#3b82f6,#8b5cf6);display:flex;align-items:center;justify-content:center;font-size:24px;margin:0 auto 12px; }
+    .brand h1 { font-size:22px; font-weight:700; }
+    .card { background:var(--surface); border:1px solid var(--border); border-radius:20px; padding:32px; }
+    .field { margin-bottom:18px; }
+    label { display:block; font-size:13px; font-weight:500; color:var(--muted); margin-bottom:7px; }
+    input { width:100%; background:#0a0f1c; border:1px solid var(--border); border-radius:10px; padding:12px 14px; color:var(--text); font-size:14px; font-family:inherit; transition:.2s; }
+    input:focus { outline:none; border-color:var(--accent); box-shadow:0 0 0 3px rgba(59,130,246,.15); }
+    .btn { width:100%; padding:13px; background:var(--accent); color:white; border:none; border-radius:10px; font-size:15px; font-weight:600; cursor:pointer; font-family:inherit; margin-top:8px; }
+    .btn:hover { background:#2563eb; }
+    .footer-link { text-align:center; margin-top:20px; font-size:13px; color:var(--muted); }
+    .footer-link a { color:var(--accent); text-decoration:none; }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="brand">
+    <div class="brand-icon">📊</div>
+    <h1>ChurnIQ</h1>
+  </div>
+  <div class="card">
+    <h2 style="font-size:18px;font-weight:600;margin-bottom:24px;">Create account</h2>
+    <form action="/register" method="POST">
+      <div class="field"><label>Name</label><input type="text" name="name" placeholder="Your name" required></div>
+      <div class="field"><label>Email</label><input type="email" name="email" placeholder="you@example.com" required></div>
+      <div class="field"><label>Password</label><input type="password" name="password" placeholder="••••••••" required></div>
+      <button class="btn" type="submit">Create account →</button>
+    </form>
+  </div>
+  <div class="footer-link">Already have an account? <a href="/login">Sign in</a></div>
+</div>
+</body>
+</html>

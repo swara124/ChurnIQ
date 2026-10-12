@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}ChurnIQ{% endblock %}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #080c14;
+      --surface: #0f172a;
+      --surface2: #1e293b;
+      --border: #1e293b;
+      --accent: #3b82f6;
+      --accent2: #8b5cf6;
+      --green: #10b981;
+      --red: #ef4444;
+      --amber: #f59e0b;
+      --text: #f1f5f9;
+      --muted: #64748b;
+      --sidebar-w: 240px;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { background: var(--bg); color: var(--text); font-family: 'Space Grotesk', sans-serif; min-height:100vh; display:flex; }
+
+    /* ── Sidebar ── */
+    .sidebar {
+      width: var(--sidebar-w);
+      min-height: 100vh;
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      padding: 28px 16px;
+      position: fixed;
+      top: 0; left: 0;
+      display: flex; flex-direction: column;
+      gap: 8px;
+    }
+    .sidebar-brand {
+      display: flex; align-items: center; gap: 10px;
+      padding: 0 12px 24px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 8px;
+    }
+    .brand-icon {
+      width:36px; height:36px; border-radius:10px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      display:flex; align-items:center; justify-content:center;
+      font-size:18px;
+    }
+    .brand-name { font-size:18px; font-weight:700; letter-spacing:-0.5px; }
+    .brand-tag { font-size:10px; color:var(--muted); font-family:'DM Mono',monospace; }
+
+    .nav-item {
+      display: flex; align-items: center; gap: 12px;
+      padding: 11px 14px; border-radius: 10px;
+      color: var(--muted); text-decoration: none;
+      font-size: 14px; font-weight: 500;
+      cursor: pointer; transition: all .2s;
+      border: 1px solid transparent;
+    }
+    .nav-item:hover { background: var(--surface2); color: var(--text); }
+    .nav-item.active { background: rgba(59,130,246,.15); color: var(--accent); border-color: rgba(59,130,246,.25); }
+    .nav-item .icon { font-size:16px; width:20px; text-align:center; }
+
+    .nav-spacer { flex: 1; }
+    .nav-logout { color: var(--red) !important; }
+    .nav-logout:hover { background: rgba(239,68,68,.1) !important; }
+
+    /* ── Main ── */
+    .main { margin-left: var(--sidebar-w); flex:1; padding: 32px; min-height:100vh; }
+
+    /* ── Page Header ── */
+    .page-header { margin-bottom: 28px; }
+    .page-header h1 { font-size:24px; font-weight:700; letter-spacing:-0.5px; }
+    .page-header p { color: var(--muted); font-size:14px; margin-top:4px; }
+
+    /* ── Cards ── */
+    .card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 16px; padding: 24px;
+    }
+    .card-sm { padding: 18px; }
+
+    /* ── KPI Grid ── */
+    .kpi-grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap:16px; margin-bottom:24px; }
+    .kpi-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 16px; padding: 20px; position:relative; overflow:hidden;
+    }
+    .kpi-card::before {
+      content:''; position:absolute; top:0; left:0; right:0; height:3px;
+      background: var(--accent-color, var(--accent));
+    }
+    .kpi-label { font-size:12px; color:var(--muted); text-transform:uppercase; letter-spacing:.05em; margin-bottom:8px; }
+    .kpi-value { font-size:32px; font-weight:700; letter-spacing:-1px; }
+    .kpi-sub { font-size:12px; color:var(--muted); margin-top:4px; }
+
+    /* ── Table ── */
+    .table-wrap { overflow-x:auto; }
+    table { width:100%; border-collapse:collapse; font-size:14px; }
+    th { padding:10px 14px; text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:.06em; color:var(--muted); border-bottom:1px solid var(--border); }
+    td { padding:12px 14px; border-bottom:1px solid var(--border); }
+    tr:last-child td { border-bottom:none; }
+    tr:hover td { background:rgba(255,255,255,.02); }
+
+    /* ── Badge ── */
+    .badge { display:inline-block; padding:3px 10px; border-radius:999px; font-size:12px; font-weight:600; }
+    .badge-red { background:rgba(239,68,68,.15); color:#ef4444; }
+    .badge-green { background:rgba(16,185,129,.15); color:#10b981; }
+    .badge-blue { background:rgba(59,130,246,.15); color:#3b82f6; }
+
+    /* ── Btn ── */
+    .btn {
+      display:inline-flex; align-items:center; gap:8px;
+      padding:10px 20px; border-radius:10px; font-size:14px;
+      font-weight:600; cursor:pointer; border:none; text-decoration:none;
+      transition: all .2s; font-family:inherit;
+    }
+    .btn-primary { background:var(--accent); color:white; }
+    .btn-primary:hover { background:#2563eb; transform:translateY(-1px); box-shadow:0 4px 20px rgba(59,130,246,.4); }
+    .btn-ghost { background:var(--surface2); color:var(--text); border:1px solid var(--border); }
+    .btn-ghost:hover { background:var(--border); }
+  </style>
+</head>
+<body>
+
+<nav class="sidebar">
+  <div class="sidebar-brand">
+    <div class="brand-icon">📊</div>
+    <div>
+      <div class="brand-name">ChurnIQ</div>
+      <div class="brand-tag">ML Platform</div>
+    </div>
+  </div>
+  <a href="/dashboard" class="nav-item {% if request.path == '/dashboard' %}active{% endif %}">
+    <span class="icon">⊞</span> Dashboard
+  </a>
+  <a href="/upload" class="nav-item {% if request.path == '/upload' %}active{% endif %}">
+    <span class="icon">↑</span> Upload Data
+  </a>
+  <a href="/report" class="nav-item {% if request.path == '/report' %}active{% endif %}">
+    <span class="icon">◈</span> Reports
+  </a>
+  <a href="/profile" class="nav-item {% if request.path == '/profile' %}active{% endif %}">
+    <span class="icon">◎</span> Profile
+  </a>
+  <div class="nav-spacer"></div>
+  <a href="/logout" class="nav-item nav-logout">
+    <span class="icon">⎋</span> Logout
+  </a>
+</nav>
+
+<main class="main">
+  {% block content %}{% endblock %}
+</main>
+</body>
+</html>

@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% block title %}Upload Data{% endblock %}
+{% block content %}
+<style>
+.upload-wrap { max-width:580px; margin:0 auto; }
+.drop-zone {
+  border: 2px dashed var(--border); border-radius: 20px;
+  padding: 60px 40px; text-align: center;
+  transition: .2s; cursor: pointer; margin-bottom: 20px;
+  background: var(--surface);
+}
+.drop-zone:hover, .drop-zone.drag { border-color: var(--accent); background: rgba(59,130,246,.05); }
+.drop-icon { font-size: 48px; margin-bottom: 16px; }
+.drop-zone h2 { font-size: 18px; font-weight: 600; margin-bottom: 8px; }
+.drop-zone p { color: var(--muted); font-size: 14px; }
+.file-input { display: none; }
+.file-chosen { background:var(--surface2); border:1px solid var(--border); border-radius:10px; padding:12px 16px; font-size:14px; margin-bottom:16px; display:none; align-items:center; gap:10px; }
+.requirements { background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:20px; }
+.req-title { font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); margin-bottom:12px; }
+.req-item { display:flex; align-items:center; gap:8px; font-size:13px; color:var(--muted); padding:4px 0; }
+.req-item span:first-child { color:var(--green); }
+progress-bar { display:none; height:4px; background:var(--surface2); border-radius:2px; overflow:hidden; margin-bottom:12px; }
+.progress-fill { height:100%; background:var(--accent); width:0%; transition:.3s; border-radius:2px; animation: progress-anim 2s ease-in-out infinite; }
+@keyframes progress-anim { 0%{width:0%} 50%{width:75%} 100%{width:100%} }
+</style>
+
+<div class="page-header">
+  <h1>Upload Dataset</h1>
+  <p>Upload a CSV file with customer data to run churn prediction</p>
+</div>
+
+<div class="upload-wrap">
+  <form action="/upload" method="POST" enctype="multipart/form-data" id="uploadForm">
+    <div class="drop-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
+      <div class="drop-icon">📂</div>
+      <h2>Drop your CSV file here</h2>
+      <p>or click to browse files</p>
+      <p style="margin-top:10px;font-size:12px;font-family:'DM Mono',monospace;color:var(--accent);">.csv files only</p>
+    </div>
+    <input type="file" name="file" id="fileInput" class="file-input" accept=".csv" required>
+    <div class="file-chosen" id="fileChosen">
+      <span>📄</span>
+      <span id="fileName"></span>
+    </div>
+    <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;padding:14px;" id="submitBtn">
+      ↑ &nbsp; Upload & Predict
+    </button>
+  </form>
+
+  <div style="margin-top:24px;">
+    <div class="requirements">
+      <div class="req-title">What data works best</div>
+      <div class="req-item"><span>✓</span> Customer balance, tenure, age</div>
+      <div class="req-item"><span>✓</span> Credit score, number of products</div>
+      <div class="req-item"><span>✓</span> Activity metrics (transactions, duration)</div>
+      <div class="req-item"><span>✓</span> Any customer ID or name column</div>
+      <div class="req-item" style="color:var(--muted);margin-top:8px;"><span>ℹ</span> No churn label needed — system creates it via clustering</div>
+    </div>
+  </div>
+</div>
+
+<script>
+const input = document.getElementById('fileInput');
+const dropZone = document.getElementById('dropZone');
+const fileChosen = document.getElementById('fileChosen');
+const fileName = document.getElementById('fileName');
+const form = document.getElementById('uploadForm');
+const btn = document.getElementById('submitBtn');
+
+input.addEventListener('change', () => {
+  if (input.files[0]) {
+    fileName.textContent = input.files[0].name;
+    fileChosen.style.display = 'flex';
+    dropZone.style.borderColor = 'var(--green)';
+    dropZone.querySelector('h2').textContent = 'File selected!';
+    dropZone.querySelector('p').textContent = input.files[0].name;
+  }
+});
+
+['dragenter','dragover'].forEach(e => dropZone.addEventListener(e, ev => { ev.preventDefault(); dropZone.classList.add('drag'); }));
+['dragleave','drop'].forEach(e => dropZone.addEventListener(e, ev => { ev.preventDefault(); dropZone.classList.remove('drag'); }));
+dropZone.addEventListener('drop', ev => {
+  const file = ev.dataTransfer.files[0];
+  if (file && file.name.endsWith('.csv')) {
+    const dt = new DataTransfer(); dt.items.add(file); input.files = dt.files;
+    input.dispatchEvent(new Event('change'));
+  }
+});
+
+form.addEventListener('submit', () => {
+  btn.textContent = '⏳ Analyzing... please wait';
+  btn.disabled = true;
+  btn.style.opacity = '0.7';
+});
+</script>
+{% endblock %}

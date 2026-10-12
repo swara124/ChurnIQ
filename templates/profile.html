@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}Profile{% endblock %}
+{% block content %}
+
+<div class="page-header">
+  <h1>Profile</h1>
+</div>
+
+<div style="display:grid;grid-template-columns:280px 1fr;gap:20px;">
+  <div>
+    <div class="card" style="text-align:center;">
+      <div style="width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:28px;margin:0 auto 16px;">👤</div>
+      <h3 style="font-size:17px;font-weight:600;">{{ name }}</h3>
+      <p style="color:var(--muted);font-size:13px;margin-top:4px;">{{ email }}</p>
+      <div style="margin-top:16px;padding-top:16px;border-top:1px solid var(--border);">
+        <div style="font-size:12px;color:var(--muted);">Total Uploads</div>
+        <div style="font-size:26px;font-weight:700;color:var(--accent)">{{ history|length }}</div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div style="font-size:13px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:16px;">Upload History</div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>File</th><th>Date</th><th>Total</th><th>Churn</th><th>Retained</th></tr>
+        </thead>
+        <tbody>
+          {% for row in history %}
+          <tr>
+            <td style="font-family:'DM Mono',monospace;font-size:12px;">{{ row[0] }}</td>
+            <td style="color:var(--muted);font-size:13px;">{{ row[1] }}</td>
+            <td>{{ row[2] }}</td>
+            <td><span class="badge badge-red">{{ row[3] }}</span></td>
+            <td><span class="badge badge-green">{{ row[4] }}</span></td>
+          </tr>
+          {% else %}
+          <tr><td colspan="5" style="text-align:center;color:var(--muted);padding:30px;">No uploads yet</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

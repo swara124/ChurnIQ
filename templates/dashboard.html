@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<style>
+.dash-hero {
+  background: linear-gradient(135deg, rgba(59,130,246,.15) 0%, rgba(139,92,246,.1) 100%);
+  border: 1px solid rgba(59,130,246,.2);
+  border-radius: 20px; padding:40px; margin-bottom:28px;
+  position:relative; overflow:hidden;
+}
+.dash-hero::before {
+  content:''; position:absolute; right:-60px; top:-60px;
+  width:260px; height:260px; border-radius:50%;
+  background: radial-gradient(circle, rgba(59,130,246,.2) 0%, transparent 70%);
+}
+.dash-hero h1 { font-size:30px; font-weight:700; letter-spacing:-1px; margin-bottom:8px; }
+.dash-hero p { color:var(--muted); font-size:15px; max-width:500px; }
+.dash-hero .cta { margin-top:24px; display:flex; gap:12px; }
+
+.quick-cards { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-bottom:28px; }
+.qc {
+  background:var(--surface); border:1px solid var(--border); border-radius:16px;
+  padding:22px; cursor:pointer; transition:.2s; text-decoration:none; display:block; color:var(--text);
+}
+.qc:hover { border-color:var(--accent); transform:translateY(-2px); }
+.qc .qc-icon { font-size:28px; margin-bottom:12px; }
+.qc h3 { font-size:15px; font-weight:600; margin-bottom:4px; }
+.qc p { font-size:13px; color:var(--muted); }
+
+.how-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+.step { background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:20px; }
+.step-num { font-size:11px; font-family:'DM Mono',monospace; color:var(--accent); text-transform:uppercase; letter-spacing:.1em; margin-bottom:8px; }
+.step h4 { font-size:14px; font-weight:600; margin-bottom:6px; }
+.step p { font-size:13px; color:var(--muted); line-height:1.6; }
+</style>
+
+<div class="dash-hero">
+  <div style="position:relative;z-index:1;">
+    <h1>Customer Churn Intelligence</h1>
+    <p>Upload your bank customer data and our ensemble models will identify at-risk customers with feature analysis and probability scoring.</p>
+    <div class="cta">
+      <a href="/upload" class="btn btn-primary">↑ Upload Dataset</a>
+      <a href="/report" class="btn btn-ghost">◈ View Reports</a>
+    </div>
+  </div>
+</div>
+
+<div class="quick-cards">
+  <a href="/upload" class="qc">
+    <div class="qc-icon">📂</div>
+    <h3>Upload & Predict</h3>
+    <p>Upload CSV → get instant churn predictions with risk scores</p>
+  </a>
+  <a href="/report" class="qc">
+    <div class="qc-icon">📊</div>
+    <h3>Analytics Report</h3>
+    <p>Visualize churn trends and customer retention over time</p>
+  </a>
+  <a href="/profile" class="qc">
+    <div class="qc-icon">🗂</div>
+    <h3>Upload History</h3>
+    <p>Review all past predictions and download previous results</p>
+  </a>
+</div>
+
+<div class="card" style="margin-bottom:24px;">
+  <div style="margin-bottom:20px;">
+    <p style="font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);">How It Works</p>
+  </div>
+  <div class="how-grid">
+    <div class="step">
+      <div class="step-num">Step 01</div>
+      <h4>Upload Data</h4>
+      <p>Upload any bank customer CSV. The system auto-detects columns, handles missing values, and encodes categoricals.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">Step 02</div>
+      <h4>Feature Engineering</h4>
+      <p>15+ derived features are built — balance ratios, loyalty flags, engagement scores — then ranked by mutual information.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">Step 03</div>
+      <h4>Ensemble Prediction</h4>
+      <p>Logistic Regression, Random Forest, and Gradient Boost models compete. The best (or ensemble) labels each customer with a risk %.</p>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

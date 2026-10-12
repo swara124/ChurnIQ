@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Contact</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='con_abou.css') }}">
+</head>
+
+<body>
+
+<div class="navbar">
+    <h2 class="logo">ChurnIQ</h2>
+    <ul class="nav-links">
+        <li><a href="/">Home</a></li>
+        <li><a href="/about">About</a></li>
+        <li><a href="/contact">Contact</a></li>
+    </ul>
+</div>
+
+<div class="page-container">
+    <h1>Contact Us</h1>
+
+    <form class="contact-form">
+        <input type="text" placeholder="Your Name" required>
+        <input type="email" placeholder="Your Email" required>
+        <textarea placeholder="Your Message" rows="5" required></textarea>
+        <button type="submit">Send Message</button>
+    </form>
+
+    <div class="contact-info">
+        <p>Email: support@gmail.com</p>
+        <p>Phone: +91 1234567890</p>
+    </div>
+</div>
+
+</body>
+</html>
